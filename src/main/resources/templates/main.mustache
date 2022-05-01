@@ -5,17 +5,66 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <title>코스번호를 선택합시당</title>
+
+    <style>
+        .result-box {
+            width: 100%;
+            height: 100%;
+            border: 1px solid black;
+        }
+    </style>
+
 </head>
 
 <body>
     <h1>관광코스 기상 정보 안내 서비스</h1>
-    <form action="">
-        <input type="text" class="form-control" placeholder="관광코스 ID를 입력하세요">
+    <form>
+        <input id="courseId" type="text" class="form-control" placeholder="관광코스 ID를 입력하세요">
         <br />
-        <button>SEND</button>
+        <button id="btn-send" type="button">SEND</button>
     </form>
     1~438번까지 있음!
+
+    <div class="result-box">리절트 박스
+    </div>
 </body>
+
+<script>
+    $("#btn-send").click(() => {
+        sendCourseId();
+    });
+
+    async function sendCourseId() {
+        let courseId = $("#courseId").val();
+        let response = await fetch(`/course-detail/download/${courseId}`);
+        let responseParse = await response.json();
+
+        if (response.status == 200) {
+            let data = responseParse.response.body.items.item;
+
+            for (let i of data) {
+                console.log(i); // 이걸 화면에 어떻게 뿌리지?
+
+                // append와 appendChild 테스트를 해보러 갑시다
+                $("#result-box").append("<div>안녕</div>");
+
+            }
+        }
+
+
+        // console.log(data)
+
+
+
+
+    }
+
+
+
+</script>
+
+
 
 </html>
